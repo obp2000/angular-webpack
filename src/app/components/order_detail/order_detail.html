@@ -1,0 +1,115 @@
+<form (ngSubmit)="onSubmit()" class="form-horizontal" [formGroup]="form">
+  <h4>Заказ {{order.id}}</h4>
+  <div class="col-sm-12 text-right">
+    <a routerLink="/orders">
+      << Назад </a>
+        <span [hidden]="form.valid">
+          <label class="label label-danger mr-5">Invalid</label>
+        </span>
+        <button type="submit" class="btn btn-outline-primary btn-sm" [disabled]="!form.valid">Сохранить</button>
+        <!-- 		<div>{{form.thrownError | json}}</div> -->
+  </div>
+  <div class="form-group row" formGroupName='customer'>
+    <label class="col-sm-2 col-form-label">Заказчик</label>
+    <div class="col-sm-5">
+      <!-- <select class="form-control" formControlName="customer">
+					<option *ngFor="let customer of customers" [ngValue]="customer">
+						{{customer.nick}}</option>
+        </select> -->
+      <!-- <select class="form-control" formControlName="customer_id">
+					<option *ngFor="let customer of customers" [ngValue]="customer.id">
+            {{customer.nick}}
+          </option>
+				</select> -->
+      <!-- <input type="text" class="form-control" formControlName='nick'> -->
+      <ng2-completer formControlName="nick" textSearching="Поиск..." textNoResults="Не найдено" [datasource]="_customerCompleter"
+        [minSearchLength]="0" inputClass='form-control' (selected)="onCustomerSelected($event)">
+      </ng2-completer>
+    </div>
+  </div>
+  <!-- <p>{{order.customer_id}}</p> -->
+  <div class="row">
+    <div class="col-sm-1">
+      <label>№ п/п</label>
+    </div>
+    <div class="col-sm-4">
+      <label>Наименование</label>
+    </div>
+    <div class="col-sm-2">
+      <label>Цена, руб.</label>
+    </div>
+    <div class="col-sm-2">
+      <label>Метров</label>
+    </div>
+    <div class="col-sm-1">
+      <label>Стоимость, руб.</label>
+    </div>
+    <div class="col-sm-1">
+      <label>Вес, гр.</label>
+    </div>
+    <div class="col-em-1">
+    </div>
+  </div>
+  <div formArrayName="order_items_attributes">
+    <div *ngFor="let order_item of orderItemsAttributesFormArray.controls; let i=index" [formGroupName]="i" [hidden]="order_item.get('_destroy').value"
+      class="panel1 panel-default1 row">
+      <!-- <div class="row"> -->
+      <div class="col-sm-1">
+        <div>{{i + 1}}</div>
+      </div>
+      <div class="col-sm-4" formGroupName="product">
+        <!-- <select class="form-control" formControlName="product_id">
+							<option *ngFor="let product of products" [ngValue]="product.id">
+                {{product.name}} // {{product.price}} руб./м
+              </option>
+            </select> -->
+        <ng2-completer formControlName="name" textSearching="Поиск..." textNoResults="Не найдено" [datasource]="_productCompleter"
+          [minSearchLength]="0" inputClass='form-control' (selected)="onProductSelected($event, order_item)">
+        </ng2-completer>
+        <!-- <p>{{order_item.get('product').value | json}}</p>
+            <p>{{order_item.get('product.width').value}}</p> -->
+        <small [hidden]="order_item.get('product.name').valid" class="text-danger">
+          Наименование не может быть пустым!
+        </small>
+        <!-- <div formGroupName='product'>
+              <input type="text" class="form-control" formControlName="name">
+            </div> -->
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" formControlName="price">
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" formControlName="amount">
+      </div>
+      <div class="col-sm-1">
+        {{order_item.get('price').value * order_item.get('amount').value | number:'1.2-2'}}
+      </div>
+      <div class="col-sm-1">
+        {{(order_item.get('amount').value * order_item.get('product.density').value * order_item.get('product.width').value / 100)
+        | number:'1.0-0'}}
+      </div>
+      <div class="col-sm-1">
+        <a class="btn btn-outline-primary btn-sm" (click)="removeOrderItem(i)">Удалить</a>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class='row'>
+    <div class="col-sm-1">
+      <div>{{orderItemsAmount | number:'1.0-0'}}</div>
+    </div>
+    <div class="col-sm-4">
+      <button (click)="addOrderItem()" type="button" class="btn btn-outline-primary btn-sm">Добавить</button>
+    </div>
+    <div class="col-sm-1 offset-sm-3">
+      <div>{{orderMeters | number:'1.2-2'}}</div>
+    </div>
+    <div class="col-sm-1">
+      <div>{{orderSum | number:'1.2-2'}}</div>
+    </div>
+    <div class="col-sm-1">
+      <div>{{orderWeight | number:'1.0-0'}}</div>
+    </div>
+  </div>
+  <!-- 		<p>Form value: {{ form.value | json }}</p> -->
+</form>

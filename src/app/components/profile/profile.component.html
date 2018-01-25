@@ -1,0 +1,38 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Профиль</h5>
+    <div class="row" *ngIf="authTokenService.currentUserData">
+      <div class="col-sm-2">
+        Email:
+      </div>
+      <div class="col-sm-8">
+        {{authTokenService.currentUserData.email}}
+      </div>
+    </div>
+    <div class="row" *ngIf="authTokenService.currentUserData">
+      <div class="col-sm-2">
+        Имя:
+      </div>
+      <div class="col-sm-8">
+        {{authTokenService.currentUserData.name}}
+      </div>
+    </div>
+    <div class="row" *ngIf="authTokenService.currentUserData">
+      <div class="col-sm-2">
+        Ник:
+      </div>
+      <div class="col-sm-8">
+        {{authTokenService.currentUserData.nickname}}
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-sm-3 offset-3">
+        <button (click)="logOut()" class="btn btn-outline-primary btn-sm">
+          Выйти
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

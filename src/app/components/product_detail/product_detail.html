@@ -1,0 +1,216 @@
+<form (ngSubmit)="onSubmit()" class="form-horizontal" #productForm="ngForm">
+    <h4>Детали</h4>
+    <div class="col-sm-12 text-right">
+      <a routerLink="/products"><< Назад </a>
+      <span [hidden]="productForm.valid">
+        <label class="label label-danger mr-5">Invalid</label>
+      </span>
+      <button type="submit" class="btn btn-outline-primary btn-sm" [disabled]="!productForm.valid">Сохранить</button>
+      <!-- <div>{{productForm.form | json}}</div> -->
+    </div>
+
+    <!-- <div class="form-group row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+        </div>
+    </div> -->
+    <div class="form-group row" *ngIf="product">
+      <label for="id" class="col-sm-1 col-form-label">Id</label>
+      <div class="col-sm-2">
+        <input type="text" readonly class="form-control-plaintext" id="id" name="id" value="{{product.id}}">
+        <!-- <p> -->
+        <!-- <ngb-alert [dismissible]="false">
+            <strong>Warning!</strong> Better check yourself, you're not looking too good.
+          </ngb-alert>
+        </p>
+        <div class="btn-group btn-group-toggle">
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="checkbox" ngbButton> Left (pre-checked)
+          </label>
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="checkbox" ngbButton> Middle
+          </label>
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="checkbox" ngbButton> Right
+          </label>
+        </div>
+
+
+        <ngb-carousel>
+          <ng-template ngbSlide>
+            <img src="https://lorempixel.com/900/500?r=1" alt="Random first slide">
+            <div class="carousel-caption">
+              <h3>First slide label</h3>
+              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <img src="https://lorempixel.com/900/500?r=2" alt="Random second slide">
+            <div class="carousel-caption">
+              <h3>Second slide label</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <img src="https://lorempixel.com/900/500?r=3" alt="Random third slide">
+            <div class="carousel-caption">
+              <h3>Third slide label</h3>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+            </div>
+          </ng-template>
+        </ngb-carousel> -->
+
+
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-1 col-form-label">Название</label>
+      <div class="col-sm-6">
+        <input type="text" name="name" class="form-control" [(ngModel)]="product.name" required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-1 col-form-label">Фото</label>
+      <div class="col-sm-4">
+        <input type="file" name="image" class="form-control-file mb-2" ng2FileSelect [uploader]="uploader" />
+        <img *ngIf="product.image_url" [src]="product.image_url" width="100px" />
+      </div>
+
+      <div class="col-sm-6">
+        <!-- <h3>Upload queue</h3> -->
+        <!-- <p>Queue length: {{ uploader?.queue?.length }}</p> -->
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="50%">Имя</th>
+              <th>Размер</th>
+              <th>Прогресс</th>
+              <th>Статус</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of uploader.queue">
+              <td>
+                <strong>{{ item?.file?.name }}</strong>
+              </td>
+              <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+              <td>
+                <div class="progress" style="margin-bottom: 0;">
+                  <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                </div>
+              </td>
+              <td class="text-center">
+                <span *ngIf="item.isSuccess">
+                  <i class="glyphicon glyphicon-ok"></i>
+                </span>
+                <span *ngIf="item.isCancel">
+                  <i class="glyphicon glyphicon-ban-circle"></i>
+                </span>
+                <span *ngIf="item.isError">
+                  <i class="glyphicon glyphicon-remove"></i>
+                </span>
+              </td>
+              <td nowrap>
+                <button type="button" class="btn btn-success btn-sm" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                  <span class="glyphicon glyphicon-upload"></span> Upload
+                </button>
+                <button type="button" class="btn btn-warning btn-sm" (click)="item.cancel()" [disabled]="!item.isUploading">
+                  <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" (click)="item.remove()">
+                  <span class="glyphicon glyphicon-trash"></span> Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-1 col-form-label">Плотность, гр/м2</label>
+      <div class="col-sm-2">
+        <input type="text" name="density" class="form-control" [(ngModel)]="product.density">
+      </div>
+      <!-- 	  <div>{{product.density * 2}}</div> -->
+      <label class="col-sm-2 col-form-label">Плотность для витрины, гр/м2
+      </label>
+      <div class="col-sm-2">
+        <input type="text" name="density_shop" class="form-control" [(ngModel)]="product.density_shop">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-1 col-form-label">Ширина, см</label>
+      <div class="col-sm-2">
+        <input type="text" name="width" class="form-control" [(ngModel)]="product.width">
+      </div>
+      <label class="col-sm-2 col-form-label">Ширина для витрины, см</label>
+      <div class="col-sm-2">
+        <input type="text" name="width_shop" class="form-control" [(ngModel)]="product.width_shop">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-1 col-form-label">Цена, руб./м</label>
+      <div class="col-sm-2">
+        <input type="text" name="price" class="form-control" [(ngModel)]="product.price">
+      </div>
+      <label class="col-sm-2 col-form-label">Цена до выкупа, руб./м</label>
+      <div class="col-sm-2">
+        <input type="text" name="price_pre" class="form-control" [(ngModel)]="product.price_pre">
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="product.dollar_price && product.dollar_rate && product.density && product.width">
+      <label class="col-sm-2 col-form-label">Себестоимость, руб./м</label>
+      <div class="col-sm-10">
+        {{price_rub_m | number:'1.2-2'}}
+        <b> 1,5-></b> {{price_rub_m*1.5 | number:'1.2-2'}}
+        <b> 1,6-></b> {{price_rub_m*1.6 | number:'1.2-2'}}
+        <b>
+          1,7-></b> {{price_rub_m*1.7 | number:'1.2-2'}}
+        <b> 1,8-></b>
+        {{price_rub_m*1.8 | number:'1.2-2'}}
+        <b> 1,9-></b> {{price_rub_m*1.9 | number:'1.2-2'}}
+        <b> 2-></b> {{price_rub_m*2 | number:'1.2-2'}}
+        <br />
+        <b> 1,2-></b> {{price_rub_m*1.2 | number:'1.2-2'}}
+        <b> 1,3-></b>
+        {{price_rub_m*1.3 | number:'1.2-2'}}
+        <b> 1,4-></b> {{price_rub_m*1.4 | number:'1.2-2'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Цена, $/кг</label>
+      <div class="col-sm-2">
+        <input type="text" name="dollar_price" class="form-control" [(ngModel)]="product.dollar_price">
+      </div>
+      <label class="col-sm-2 col-form-label">Курс $</label>
+      <div class="col-sm-2">
+        <input type="text" name="dollar_rate" class="form-control" [(ngModel)]="product.dollar_rate">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Вес отреза, гр</label>
+      <div class="col-sm-2">
+        <input type="text" name="weight_for_count" class="form-control" [(ngModel)]="product.weight_for_count">
+      </div>
+      <label class="col-sm-2 col-form-label">Длина отреза, м</label>
+      <div class="col-sm-2">
+        <input type="text" name="length_for_count" class="form-control" [(ngModel)]="product.length_for_count">
+      </div>
+      <label class="col-sm-2 col-form-label">Плотность отреза, гр/м2</label>
+      <div *ngIf="product.weight_for_count && product.length_for_count && product.width" class="col-sm-2">{{density_count | number:'1.2-2'}}</div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Вес рулона, кг</label>
+      <div class="col-sm-2">
+        <input type="text" name="weight" class="form-control" [(ngModel)]="product.weight">
+      </div>
+      <label class="col-sm-2 col-form-label">Метров в рулоне</label>
+      <div class="col-sm-2">{{meters | number:'1.2-2'}}</div>
+    </div>
+    <!-- <div>{{productForm.form.controls | json}}</div> -->
+
+</form>

@@ -1,0 +1,30 @@
+<form (ngSubmit)="onSubmit()" class="form-horizontal" [formGroup]="form">
+  <h4>Покупатель</h4>
+  <div class="col-sm-12 text-right">
+    <a routerLink="/customers"><< Назад </a>
+    <span [hidden]="form.valid">
+      <label class="label label-danger mr-5">Invalid</label>
+    </span>
+    <button type="submit" class="btn btn-outline-primary btn-sm" [disabled]="!form.valid">
+      Сохранить
+    </button>
+  </div>
+  <div class="form-group row" *ngIf="customer">
+    <label class="col-sm-2 col-form-label">Id</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="id" name="id" value="{{customer.id}}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Ник</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" [(ngModel)]="customer.nick" [formControl]="form.controls['nick']">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">ФИО</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" [(ngModel)]="customer.name" [formControl]="form.controls['name']">
+    </div>
+  </div>
+</form>

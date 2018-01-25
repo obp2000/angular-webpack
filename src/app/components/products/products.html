@@ -1,0 +1,43 @@
+<h3>Ткани ({{totalCount}})</h3>
+<table class="table table-sm table-striped table-bordered table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Название</th>
+      <th scope="col">Вес</th>
+      <th scope="col">Ширина, см</th>
+      <th scope="col">Плотность</th>
+      <th scope="col">Цена, $</th>
+      <th scope="col">Курс $</th>
+      <th scope="col">Себестоимость, руб./м</th>
+      <th scope="col">Создана</th>
+      <th scope="col">Изменена</th>
+      <th scope="col">
+        <a routerLink="/products/new" class="btn btn-outline-primary btn-sm">Новая</a>
+      </th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <th scope="row">{{product.id}}</th>
+      <td>{{product.name}}</td>
+      <td>{{product.weight}}</td>
+      <td>{{product.width}}</td>
+      <td>{{product.density}}</td>
+      <td>{{product.dollar_price}}</td>
+      <td>{{product.dollar_rate}}</td>
+      <td>{{price_rub_m(product)}}</td>
+      <td>{{product.createdAt}}</td>
+      <td>{{product.updatedAt}}</td>
+      <td>
+        <a routerLink="/products/{{product.id}}" class="btn btn-outline-primary btn-sm">Редактировать</a>
+      </td>
+      <td>
+        <a (click)="deleteProduct(product)" class="btn btn-outline-primary btn-sm">Удалить</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination [collectionSize]="totalCount" [pageSize]="perPage" (pageChange)="getProducts($event)"></ngb-pagination>

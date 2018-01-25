@@ -1,0 +1,12 @@
+<li class="nav-item" placement="bottom" ngbTooltip="Вход/Регистрация" *ngIf="!(authService.userSignedIn$ | async)">
+  <a class="nav-link" (click)="presentAuthDialog()" style="cursor:pointer">Вход</a>
+</li>
+<!-- <li class="nav-item" *ngIf="!(authService.userSignedIn$ | async)">
+  <a class="nav-link" (click)="presentAuthDialog('register')">Регистрация</a>
+</li> -->
+<li class="nav-item" *ngIf="(authService.userSignedIn$ | async)">
+  <a class="nav-link" routerLink="/profile">Профиль</a>
+</li>
+<li class="nav-item" *ngIf="(authService.userSignedIn$ | async)">
+  <a class="nav-link" (click)="logOut()">Выйти</a>
+</li>

@@ -1,0 +1,39 @@
+%h3 Покупатели ({{totalCount}})
+%table.table.table-sm.table-striped.table-bordered.table-hover
+  %thead.thead-light
+    %tr
+      %th{scope: "col"}Id
+      %th{scope: "col"}Ник
+      %th{scope: "col"}ФИО
+      %th{scope: "col"}Создан
+      %th{scope: "col"}Обновлен
+      %th{scope: "col"}
+        %a.btn.btn-outline-primary.btn-sm{routerLink: "/customers/new"} Новый
+      %th{scope: "col"}
+  %tbody
+    %tr{*ngFor: "let customer of customers"}
+      %td {{customer.id}}
+      %td {{customer.nick}}
+      %td {{customer.name}}
+      %td {{customer.createdAt}}
+      %td {{customer.updatedAt}}
+      %td
+        %a.btn.btn-outline-primary.btn-sm{routerLink: "/customers/{{customer.id}}"} Редактировать
+      %td
+        %a.btn.btn-outline-primary.btn-sm{(click): "deleteCustomer(customer)"} Удалить
+
+<ng-template #content let-c="close" let-d="dismiss">
+  .modal-header
+    %h4.modal-title Modal title
+    %button.close{type: "button", aria-label: "Close", (click): "d('Cross click')"}
+      %span{aria-hidden: "true"} &times;
+  .modal-body
+    %p One fine body&hellip;
+  .modal-footer
+    %button.btn.btn-outline-dark{type: "button", (click): "c('Close click')"} Close
+</ng-template>
+-# %button.btn.btn-lg.btn-outline-primary{(click): "open(content)"} Launch demo modal
+%hr
+%pre {{closeResult}}
+
+
